@@ -10,3 +10,4 @@ __pycache__/
 *.pyc
 .pytest_cache/
 task1_mcp_stderr.log
+.venv
