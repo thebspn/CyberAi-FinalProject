@@ -1,0 +1,54 @@
+[
+  {
+    "scanner": "HTTP Security Header Scanner",
+    "target": "http://127.0.0.1:3000/",
+    "http_status": 200,
+    "findings": [
+      {
+        "header": "Content-Security-Policy",
+        "status": "MISSING",
+        "observed_value": null,
+        "finding": "Content-Security-Policy was not present in the response."
+      },
+      {
+        "header": "X-Frame-Options",
+        "status": "PRESENT",
+        "observed_value": "SAMEORIGIN",
+        "finding": "X-Frame-Options was present."
+      },
+      {
+        "header": "X-Content-Type-Options",
+        "status": "PRESENT",
+        "observed_value": "nosniff",
+        "finding": "X-Content-Type-Options was present."
+      },
+      {
+        "header": "Referrer-Policy",
+        "status": "MISSING",
+        "observed_value": null,
+        "finding": "Referrer-Policy was not present in the response."
+      },
+      {
+        "header": "Permissions-Policy",
+        "status": "MISSING",
+        "observed_value": null,
+        "finding": "Permissions-Policy was not present in the response."
+      }
+    ]
+  },
+  {
+    "scanner": "HTTP Method Enumeration",
+    "target": "http://127.0.0.1:3000/",
+    "http_status": 204,
+    "allow_header": null,
+    "advertised_methods": [],
+    "status": "NOT_ADVERTISED"
+  },
+  {
+    "scanner": "Cookie Security Analyzer",
+    "target": "http://127.0.0.1:3000/",
+    "http_status": 200,
+    "cookies_found": 0,
+    "cookies": []
+  }
+]
