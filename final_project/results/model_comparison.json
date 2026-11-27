@@ -1,0 +1,19 @@
+{
+  "openai_model": "gpt-4o-mini",
+  "ollama_model": "qwen2.5:3b",
+  "openai_time_sec": 1.8,
+  "ollama_time_sec": 6.16,
+  "openai_selection": {
+    "tool_name": "analyze_cookie_security",
+    "arguments": {
+      "target": "127.0.0.1",
+      "port": 3000
+    },
+    "reason": "The analysis shows that no cookies were found in the response. Investigating cookie security is justified to ensure that if cookies are implemented in the future, they will have appropriate security attributes."
+  },
+  "ollama_selection": {
+    "tool_name": "analyze_cookie_security",
+    "arguments": {},
+    "reason": "The analyze_cookie_security tool was selected because it found no cookies in the response, which could indicate potential security issues related to cookie management."
+  }
+}

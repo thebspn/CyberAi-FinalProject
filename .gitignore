@@ -11,3 +11,5 @@ __pycache__/
 .pytest_cache/
 task1_mcp_stderr.log
 .venv
+.env
+final_project/.env
