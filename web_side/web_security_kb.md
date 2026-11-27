@@ -74,3 +74,59 @@ unintentionally advertise sensitive directories (admin panels, backups) to an at
 it precisely to find them. Detection: fetch `/robots.txt` and review disallowed paths. Remediation:
 do not rely on robots.txt for security; protect sensitive paths with authentication and remove
 references to them. Reference: OWASP Testing Guide – Review Webserver Metafiles.
+
+<!-- updating with my KB updates -->
+
+# Missing Referrer-Policy header
+OWASP A05:2021 – Security Misconfiguration (information disclosure and privacy risk). The
+`Referrer-Policy` header controls how much information about the current page is included in
+the `Referer` header when a browser navigates to another page or requests another resource.
+Without an explicitly configured policy, referrer information may reveal URL paths or query
+parameters to other destinations, potentially exposing sensitive information. Modern browsers
+have default behavior, but explicitly setting a policy provides consistent control. Detection:
+the response has no `Referrer-Policy` header. Remediation: explicitly configure a policy such as
+`Referrer-Policy: strict-origin-when-cross-origin` or `Referrer-Policy: no-referrer`, depending
+on the application's privacy and functionality requirements. Reference: OWASP HTTP Headers
+Cheat Sheet; OWASP Secure Headers Project.
+
+# Missing Permissions-Policy header
+OWASP A05:2021 – Security Misconfiguration. The `Permissions-Policy` header allows a website
+to control which browser features and APIs can be used by the page and embedded content.
+Features can include camera, microphone, geolocation, and other browser capabilities. Without
+an explicitly configured policy, the application does not declare its intended restrictions
+through this header. However, the absence of the header does not automatically mean that
+sensitive browser features are accessible or that a vulnerability exists. Detection: the
+response has no `Permissions-Policy` header. Remediation: configure a policy that disables
+unused browser features and permits only the origins that require access. For example:
+`Permissions-Policy: camera=(), microphone=(), geolocation=()`. Reference: OWASP HTTP Headers
+Cheat Sheet; OWASP Secure Headers Project.
+
+# HTTP method enumeration and method configuration
+OWASP A05:2021 – Security Misconfiguration (when unnecessary or unsafe HTTP methods are
+enabled). HTTP methods define the types of operations a client can request from a web server.
+The `OPTIONS` request can be used to ask a server which communication methods are supported
+for a particular URL. The `Allow` response header may advertise permitted methods, such as
+`GET`, `POST`, `PUT`, and `DELETE`. The presence of a method is not automatically a
+vulnerability; risk depends on whether the method is necessary, properly restricted, and
+protected by authorization controls. Detection: send an `OPTIONS` request and inspect the
+response for an `Allow` header and its advertised methods. If the header is absent, record
+that no methods were advertised in that response; this does not establish that no methods
+are permitted. Remediation: configure the application and server to permit only required
+HTTP methods, disable unnecessary methods, and enforce authorization for methods that
+modify or delete resources. Reference: MDN Web Docs – HTTP OPTIONS Method; OWASP REST
+Security Cheat Sheet.
+
+# Cookie presence and security attributes
+OWASP A07:2021 – Identification and Authentication Failures (when session cookies are
+inadequately protected). Cookies are commonly used to maintain sessions and store information
+between HTTP requests. Cookies containing session identifiers should use appropriate security
+attributes. `HttpOnly` prevents JavaScript from accessing a cookie through browser scripting,
+`Secure` restricts cookie transmission to HTTPS connections, and `SameSite` controls whether
+cookies are sent with cross-site requests. Detection: inspect the response's `Set-Cookie`
+headers. When cookies are present, review their `HttpOnly`, `Secure`, and `SameSite` attributes.
+If no cookies are returned, record that no cookies were observed in the inspected response;
+this does not establish that the entire application does not use cookies or that cookie
+security is misconfigured. Remediation: configure session cookies with `HttpOnly`, `Secure`,
+and an appropriate `SameSite` value, such as `Lax` or `Strict`, based on application
+requirements. The `Secure` attribute should be used for cookies in HTTPS deployments.
+Reference: OWASP Session Management Cheat Sheet; MDN Secure Cookie Configuration.
